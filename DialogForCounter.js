@@ -38,20 +38,17 @@ export function DialogWindow({
           <TextInput
             label="Интервал"
             keyboardType="numeric"
-            value={step}
-            onChangeText={(text) => setStep(text)}
+            onChangeText={(text) => setStep(+text)}
             mode="outlined"
           />
           <TextInput
             label="Количество повторений"
             keyboardType="numeric"
-            value={repeat}
-            onChangeText={(text) => setRepeat(text)}
+            onChangeText={(text) => setRepeat(+text)}
             mode="outlined"
           />
           <TextInput
             label="Сообщение"
-            value={message}
             onChangeText={(text) => setMessage(text)}
             mode="outlined"
           />

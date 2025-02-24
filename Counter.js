@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { View } from "react-native";
 import { PaperProvider, Button, Text } from "react-native-paper";
 import { styles } from "./styles";
-import { DialogWindow } from "./Dialog";
+import { DialogWindow } from "./DialogForCounter";
 import { theme } from "./theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -22,16 +22,34 @@ export function Counter() {
 
   const getData = async () => {
     try {
-      console.log("getData");
       const jsonValue = await AsyncStorage.getItem("counter-data");
-      const data = jsonValue != null ? JSON.parse(jsonValue) : null;
-      setCount(data.count);
-      setStep(data.step);
-      setRepeat(data.repeat);
-      setMessage(data.message);
-      setValues(data.values);
+      if (jsonValue === null) {
+        const initialDataForCounter = {
+          count: 0,
+          step: 0,
+          repeat: 0,
+          message: "",
+          values: [],
+        };
+        await AsyncStorage.setItem(
+          "counter-data",
+          JSON.stringify(initialDataForCounter)
+        );
+        setCount(initialDataForCounter.count);
+        setStep(initialDataForCounter.step);
+        setRepeat(initialDataForCounter.repeat);
+        setMessage(initialDataForCounter.message);
+        setValues(initialDataForCounter.values);
+      } else {
+        const data = JSON.parse(jsonValue);
+        setCount(data.count);
+        setStep(data.step);
+        setRepeat(data.repeat);
+        setMessage(data.message);
+        setValues(data.values);
+      }
+
       setIsInit(true);
-      console.log("done");
     } catch (e) {
       console.log(e);
     }
@@ -42,13 +60,11 @@ export function Counter() {
   }, []);
 
   const storeData = async () => {
-    console.log("storeData");
     const dataObj = { count, step, repeat, message, values };
 
     try {
       const jsonValue = JSON.stringify(dataObj);
       await AsyncStorage.setItem("counter-data", jsonValue);
-      console.log(jsonValue);
     } catch (e) {
       console.log(e);
     }
@@ -75,7 +91,6 @@ export function Counter() {
             mode="contained"
             style={styles.button}
             labelStyle={styles.icon}
-            contentStyle={styles.iconButtonContent}
             onPress={() => (count === 0 ? "disabled" : setCount(count - 1))}
           ></Button>
           <Button
@@ -83,7 +98,6 @@ export function Counter() {
             mode="contained"
             style={styles.button}
             labelStyle={styles.icon}
-            contentStyle={styles.iconButtonContent}
             onPress={() => setCount(count + 1)}
           ></Button>
         </View>

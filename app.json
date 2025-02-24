@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "MyExpoApp",
-    "slug": "MyExpoApp",
+    "newArchEnabled": true,
+    "name": "Вязальный помощник",
+    "slug": "Knitting assistant",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app-icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

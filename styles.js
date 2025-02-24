@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 70,
-    marginLeft: 10,
+    marginLeft: -10,
   },
   textMessage: {
     marginBottom: 30,
@@ -33,12 +33,13 @@ export const styles = StyleSheet.create({
   },
   resetButton: {
     marginBottom: 20,
-    width: 270,
+    width: 250,
   },
 
   //Home.js
   containerForCards: {
     flexDirection: "row",
+    flexWrap: "wrap",
     height: 210,
     marginLeft: 5,
   },
@@ -69,19 +70,20 @@ export const styles = StyleSheet.create({
 
   //DensityCalc.js
   containerForButton: {
-    flex: 1,
-    justifyContent: "flex-end",
+    position: "absolute",
+    bottom: -300, // ???
+    left: 0,
+    right: 0,
     alignItems: "center",
-    marginBottom: 30,
   },
   containerForInputs: {
     flexDirection: "row",
     marginTop: 10,
   },
   label: {
-    fontSize: 25,
+    fontSize: 20,
     marginLeft: 20,
-    marginTop: 30,
+    marginTop: 20,
   },
   input: {
     marginLeft: 20,
@@ -92,13 +94,44 @@ export const styles = StyleSheet.create({
     width: 240,
   },
   textInButton: {
-    marginTop: 20,
-    marginBottom: 20,
-    fontSize: 20,
+    marginTop: 15,
+    marginBottom: 15,
+    fontSize: 18,
   },
   resultText: {
     marginTop: 60,
     marginLeft: 30,
     marginRight: 20,
+  },
+  //Tools.js
+  subheader: {
+    fontSize: 20,
+    marginLeft: 10,
+    fontWeight: "bold",
+  },
+  listItem: {
+    paddingVertical: 2,
+  },
+  addToolContainer: {
+    alignItems: "center",
+  },
+  addToolButton: {
+    width: 240,
+    marginBottom: 40,
+  },
+  textInAddToolButton: {
+    marginTop: 15,
+    marginBottom: 15,
+    fontSize: 18,
+  },
+  containerForListItem: {
+    flexDirection: "row",
+    width: 360, // исправить, найти вариант гибкой ширины
+  },
+  searchbar: {
+    width: 390,
+    marginLeft: 10,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

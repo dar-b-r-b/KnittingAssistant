@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { styles } from "./styles";
-import { View, Keyboard } from "react-native";
+import { View, Keyboard, KeyboardAvoidingView, Platform } from "react-native";
 import { PaperProvider, TextInput, Text, Button } from "react-native-paper";
 import { theme } from "./theme";
 
@@ -45,64 +45,67 @@ export function DensityCalc() {
     );
     setResult(0);
   };
+
   return (
     <PaperProvider theme={theme}>
-      {yarns.map((y) => {
-        return (
-          <View key={y.id}>
-            <Text style={styles.label}>{y.name}</Text>
-            <View style={styles.containerForInputs}>
-              <TextInput
-                style={styles.input}
-                label="м"
-                keyboardType="numeric"
-                value={y.length?.toString() ?? ""}
-                onChangeText={(text) => {
-                  y.length = +text;
-                  setYarns([...yarns]);
-                }}
-                mode="outlined"
-              />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        {yarns.map((y) => {
+          return (
+            <View key={y.id}>
+              <Text style={styles.label}>{y.name}</Text>
+              <View style={styles.containerForInputs}>
+                <TextInput
+                  style={styles.input}
+                  label="м"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    y.length = +text;
+                    setYarns([...yarns]);
+                  }}
+                  mode="outlined"
+                />
 
-              <TextInput
-                style={styles.input}
-                label="гр"
-                keyboardType="numeric"
-                value={y.weight?.toString() ?? ""}
-                onChangeText={(text) => {
-                  y.weight = +text;
-                  setYarns([...yarns]);
-                }}
-                mode="outlined"
-              />
+                <TextInput
+                  style={styles.input}
+                  label="гр"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    y.weight = +text;
+                    setYarns([...yarns]);
+                  }}
+                  mode="outlined"
+                />
+              </View>
             </View>
-          </View>
-        );
-      })}
-      <Text variant="headlineMedium" style={styles.resultText}>
-        {result ? `Итоговая плотность нити ${result} м в 100 гр` : null}
-      </Text>
-      <View style={styles.containerForButton}>
-        <Button
-          style={styles.buttonCalc}
-          labelStyle={styles.textInButton}
-          mode="contained"
-          onPress={() => {
-            setResult(_calcDensity(yarns));
-            Keyboard.dismiss();
-          }}
-        >
-          Расчитать
-        </Button>
-        <Button
-          style={styles.buttonCalc}
-          labelStyle={styles.textInButton}
-          mode="contained"
-          onPress={_clearFields}
-        >
-          Очистить поля
-        </Button>
-      </View>
+          );
+        })}
+        <Text variant="headlineMedium" style={styles.resultText}>
+          {result ? `Итоговая плотность нити ${result} м в 100 гр` : null}
+        </Text>
+        <View style={styles.containerForButton}>
+          <Button
+            style={styles.buttonCalc}
+            labelStyle={styles.textInButton}
+            mode="contained"
+            onPress={() => {
+              setResult(_calcDensity(yarns));
+              Keyboard.dismiss();
+            }}
+          >
+            Расчитать
+          </Button>
+          <Button
+            style={styles.buttonCalc}
+            labelStyle={styles.textInButton}
+            mode="contained"
+            onPress={_clearFields}
+          >
+            Очистить поля
+          </Button>
+        </View>
+      </KeyboardAvoidingView>
     </PaperProvider>
   );
 }
