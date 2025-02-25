@@ -1,34 +1,27 @@
 import { Button, Dialog, Portal, TextInput } from "react-native-paper";
-import { theme } from "./theme";
+import { theme } from "../../theme";
+import { useDispatch } from "react-redux";
+import { save, close } from "./dialogForCounterSlice";
+import { useState } from "react";
 
-export function DialogWindow({
-  step,
-  setStep,
-  visible,
-  hideDialog,
-  message,
-  setMessage,
-  repeat,
-  setRepeat,
-  setValues,
-}) {
+export function DialogWindow({ visible, hideDialog }) {
+  const dispatch = useDispatch();
+  const [step, setStep] = useState(0);
+  const [repeat, setRepeat] = useState(0);
+  const [message, setMessage] = useState("");
+
   const _onPressOK = () => {
     if (message === "" || step === 0 || repeat === 0) {
       alert("Заполните все поля");
     } else {
-      console.log(step, message, repeat);
-      setValues(Array.from({ length: repeat }, (_, i) => (i + 1) * step - 1));
+      dispatch(save({ step, repeat, message }));
       hideDialog();
-      setStep(0);
-      setRepeat(0);
     }
   };
 
   const _onPressCancel = () => {
+    dispatch(close());
     hideDialog();
-    setStep(0);
-    setRepeat(0);
-    setMessage("");
   };
   return (
     <Portal theme={theme}>
@@ -49,8 +42,8 @@ export function DialogWindow({
           />
           <TextInput
             label="Сообщение"
-            onChangeText={(text) => setMessage(text)}
             mode="outlined"
+            onChangeText={(text) => setMessage(text)}
           />
         </Dialog.Content>
         <Dialog.Actions>
