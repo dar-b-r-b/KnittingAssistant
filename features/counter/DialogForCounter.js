@@ -1,7 +1,7 @@
 import { Button, Dialog, Portal, TextInput } from "react-native-paper";
 import { theme } from "../../theme";
 import { useDispatch } from "react-redux";
-import { save, close } from "./dialogForCounterSlice";
+import { save, close } from "./counterSlice";
 import { useState } from "react";
 
 export function DialogWindow({ visible, hideDialog }) {

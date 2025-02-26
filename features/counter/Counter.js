@@ -4,15 +4,20 @@ import { PaperProvider, Button, Text } from "react-native-paper";
 import { styles } from "../../styles";
 import { DialogWindow } from "./DialogForCounter";
 import { theme } from "../../theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { useSelector, useDispatch } from "react-redux";
-import { increment, decrement, reset } from "./counterSlice";
-import { close } from "./dialogForCounterSlice";
+import {
+  increment,
+  decrement,
+  reset,
+  close,
+  loadCounterData,
+} from "./counterSlice";
 
 export function Counter() {
-  const count = useSelector((state) => state.counter.value);
-  const message = useSelector((state) => state.dialogForCounter.message);
-  const values = useSelector((state) => state.dialogForCounter.values);
+  const count = useSelector((state) => state.counter.count);
+  const message = useSelector((state) => state.counter.message);
+  const values = useSelector((state) => state.counter.values);
   const dispatch = useDispatch();
 
   const [visible, setVisible] = useState(false);
@@ -20,7 +25,17 @@ export function Counter() {
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
 
-  //const [isInit, setIsInit] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(loadCounterData()).unwrap();
+      } catch (error) {
+        console.error("Failed to load counter data:", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   return (
     <PaperProvider theme={theme}>
